@@ -31,9 +31,67 @@ button {
   margin-top: 15px;
   font-weight: bold;
   font-size: 14px;
+  width: calc(100%);
 }
 
-div li button {
-  margin: 0 15px;
+div li .btRemove {
+  margin: 0;
   background: #ca4949;
+}
+
+div li .btLike {
+  margin: 0;
+  background: #ca0;
+}
+
+#RepositoryItens{
+  margin-bottom: 10px;
+  padding: 10px 20px 10px 20px;
+  border: 1px solid #7159c1;
+  width: 500px;
+  justify-content: space-between;
+}
+
+#divButtons{
+  width: 170px;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+}
+form div{
+  display: flex;
+  flex-direction: column;
+  width: calc(500px - 40px);
+}
+
+form button{
+  width: calc(500px - 40px);
+}
+
+form {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  width: 500px;
+}
+
+form div ul{
+  display: flex;
+  
+  align-items: center;
+  
+}
+
+form div ul li{
+  height: 30px;
+  margin: 0 0 10px 10px;
+  background-color: #7159c1;
+  padding: 0 10px;
+  border-radius: 15px;
+  
+}
+
+form div ul li:hover{
+  cursor: pointer;
+  background-color: #ca4949
 }
