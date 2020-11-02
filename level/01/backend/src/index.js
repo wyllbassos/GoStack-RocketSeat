@@ -1,4 +1,3 @@
-const { json } = require('express');
 const express = require('express');
 const { v4, validate } = require('uuid')
 const cors = require('cors');
