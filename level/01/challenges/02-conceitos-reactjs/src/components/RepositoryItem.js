@@ -1,10 +1,10 @@
 import React from 'react'
 
-export default function RepositoryIten({ repository, handles }) {
+export default function RepositoryItem({ repository, handles }) {
     const { id, title, url, techs, likes } = repository
     const { handleRemoveRepository, handleAddLike } = handles
     return (
-        <li id="RepositoryItens">
+        <li id="RepositoryItems">
             <ul>
                 <li><a href={url} target="blank">{title}</a></li>
                 <li>

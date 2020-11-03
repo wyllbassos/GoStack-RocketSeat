@@ -7,13 +7,15 @@ import "./styles.css";
 
 function App() {
   const [repositories, setRepositories] = useState([])
+  const [update, setUpdate] = useState(true)
 
   useEffect(() => {
     api.get('repositories').then(response => {
       const apiRepositpries = response.data;
       setRepositories(apiRepositpries)
+      setTimeout(() => setUpdate(!update), 1000)
     })
-  }, [])
+  }, [update])
 
   async function handleAddRepository(repository) {
     const now = Date.now()
