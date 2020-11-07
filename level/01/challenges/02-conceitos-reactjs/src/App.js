@@ -54,7 +54,7 @@ function App() {
   }
 
   return (
-    <div>
+    <div id="main">
       <Repositories 
         repositories={repositories}
         handles={{handleRemoveRepository, handleAddLike}}

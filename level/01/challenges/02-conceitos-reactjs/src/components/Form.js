@@ -42,7 +42,6 @@ export default function Form({ handles }) {
 
     return (
         <form>
-            <button onClick={submitForm}>Adicionar</button>
             <div>
                 <label htmlFor="title">Titulo</label>
                 <input 
@@ -65,13 +64,14 @@ export default function Form({ handles }) {
             </div>
             <div>
                 <label htmlFor="url">Tecnologias</label>
-                <ul>
+                <div id="form-techs-container">
                     {techs.map((tech, index) => 
-                        <li
+                        <div
+                            id="form-techs"
                             onClick={e => handleRemoveTech(index)}
-                        >{tech}</li>
+                        >{tech}</div>
                     )}
-                </ul>
+                </div>
                 <input 
                     onChange={e=>setTech(e.target.value)}
                     type="text"
@@ -80,6 +80,7 @@ export default function Form({ handles }) {
                     value={tech}
                 />
                 <button onClick={handleAddTech} >Adicionar Tecnologia</button>
+                <button onClick={submitForm}>Adicionar</button>
             </div>
         </form>
     )

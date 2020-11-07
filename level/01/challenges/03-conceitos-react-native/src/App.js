@@ -15,23 +15,15 @@ import Repositories from "./components/Repositories";
 
 export default function App() {
   const [repositories, setRepositories] = useState([])
-<<<<<<< HEAD
   const [update, setUpdate] = useState(true)
-=======
->>>>>>> refs/remotes/origin/main
 
   useEffect(() => {
     api.get('repositories').then(response => {
       const apiRepositpries = response.data;
       setRepositories(apiRepositpries)
-<<<<<<< HEAD
       setTimeout(() => setUpdate(!update), 1000)
     })
   }, [update])
-=======
-    })
-  }, [])
->>>>>>> refs/remotes/origin/main
 
   async function handleAddLike(id) {
     const repositoryIndex = repositories.findIndex(repository => repository.id === id);

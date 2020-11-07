@@ -3,7 +3,7 @@ import RepositoryItem from './RepositoryItem'
 
 export default function Repositories({ repositories, handles }) {
     return (
-        <ul data-testid="repository-list">
+        <div id="main-list" data-testid="repository-list">
             {repositories.map(repository => (
                 <RepositoryItem
                     key={repository.id}
@@ -11,6 +11,6 @@ export default function Repositories({ repositories, handles }) {
                     handles={handles}
                 />
             ))}
-      </ul>
+      </div>
     )
 }

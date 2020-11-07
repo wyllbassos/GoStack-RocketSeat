@@ -6,24 +6,29 @@
 
 body {
   font-size: 14px;
+  background-color: #7159c1;
 }
 
 div {
+  display: flex;
   width: 100%;
-  margin: 20px;
+  margin: 5px;
+  padding: 5px;
 }
 
-div li {
+#main{
   display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#main-list{
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
-div li + li {
-  margin-top: 15px;
-}
-
 button {
-  background: #7159c1;
+  background: #04d361;
   color: #fff;
   border: 0;
   padding: 10px 15px;
@@ -34,32 +39,35 @@ button {
   width: calc(100%);
 }
 
-div li .btRemove {
+input {
+  font-size: medium;
+  font-weight: bold;
+  padding: 7px;
+  border: 0;
+}
+a {
+  text-decoration: none;
+  color: #000;
+  font-weight: 900;
+  font-size: larger;
+}
+div div .btRemove,
+div div .btLike {
+  height: 40px;
   margin: 0;
+}
+div div .btRemove {
   background: #ca4949;
 }
 
-div li .btLike {
-  margin: 0;
+div div .btLike {
   background: #ca0;
 }
 
-#RepositoryItems{
-  margin-bottom: 10px;
-  padding: 10px 20px 10px 20px;
-  border: 1px solid #7159c1;
-  width: 500px;
-  justify-content: space-between;
-}
-
-#divButtons{
-  width: 170px;
-  margin: 0;
-  display: flex;
-  justify-content: space-between;
-}
 form div{
-  display: flex;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
   flex-direction: column;
   width: calc(500px - 40px);
 }
@@ -75,23 +83,72 @@ form {
   width: 500px;
 }
 
-form div ul{
-  display: flex;
-  
+#form-techs-container{
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-content: center;
+}
+
+#form-techs{
+  width: fit-content;
+  flex-direction: row;
   align-items: center;
-  
+  justify-content: center;
+  font-size: 15px;
+  margin: 5px 10px 5px 0px;
+  background-color: #04d361;
+  padding: 8px 10px;
 }
 
-form div ul li{
-  height: 30px;
-  margin: 0 0 10px 10px;
-  background-color: #7159c1;
-  padding: 0 10px;
-  border-radius: 15px;
-  
+#RepositoryItems{
+  flex-direction: column;
+  background-color: #fff;
+  margin-bottom: 10px;
+  padding: 10px 20px;
+  color: #000;
+  width: 500px;
+  justify-content: space-between;
+}
+#RepositoryItems div{
+  font-weight: bold;
+}
+#RepositoryItems-title{
+  font-size: 20px;
+  justify-content: center;
+}
+#listInfo{
+  min-width: 300px;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  width: 300px;
+}
+#listTechs{
+  display: flex;
+  max-width: 100%;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 7px 0px;
+  padding: 0;
+}
+#divTechs{
+  background-color: #04d361;
+  color: #fff;
+  padding: 5px 8px;
+  width: auto;
+  margin: 3px;
 }
 
-form div ul li:hover{
+#divButtons{
+  width: "100%";
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+#form-techs:hover{
   cursor: pointer;
   background-color: #ca4949
 }
