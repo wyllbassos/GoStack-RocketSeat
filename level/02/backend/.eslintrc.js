@@ -16,14 +16,19 @@ module.exports = {
         "@typescript-eslint"
     ],
     "rules": {
+      "no-underscore-dangle": "off",
       "class-methods-use-this": "off",
+      "@typescript-eslint/camelcase": "off",
+      "@typescript-eslint/no-unused-vars": ["error", {
+        "argsIgnorePattern": "_"
+      }],
 	   	"import/extensions": [
 	      "error",
 	      "ignorePackages",
 	      {
 	        "ts": "never"
 	      }
-	    ]
+      ],
 	  },
 	  "settings": {
 	    "import/resolver": {
