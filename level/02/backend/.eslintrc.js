@@ -18,7 +18,8 @@ module.exports = {
     "rules": {
       "no-underscore-dangle": "off",
       "class-methods-use-this": "off",
-      "@typescript-eslint/camelcase": "off",
+      "camelcase": 0,
+      '@typescript-eslint/camelcase': 'off',
       "@typescript-eslint/no-unused-vars": ["error", {
         "argsIgnorePattern": "_"
       }],
