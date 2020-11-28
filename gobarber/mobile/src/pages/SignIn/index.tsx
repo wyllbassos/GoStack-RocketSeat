@@ -5,15 +5,17 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from 'react-native';
+import * as Yup from 'yup';
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 
-import { TextInput } from 'react-native-gesture-handler';
+import getValidationsErrors from '../../utils/getValidationsErrors';
 import Button from '../../components/Button';
-import Input from '../../components/Input';
+import Input, { InputRef } from '../../components/Input';
 
 import logoimg from '../../assets/logo.png';
 
@@ -25,15 +27,60 @@ import {
   CreateAccountButton,
   CreateAccountButtonText,
 } from './styles';
+import { useAuth } from '../../hooks/auth';
+
+interface SigInFormData {
+  email: string;
+  password: string;
+}
 
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
-  const passwordInputRef = useRef<TextInput>(null);
+  const passwordInputRef = useRef<InputRef>(null);
+
   const navigation = useNavigation();
 
-  const handleSingIn = useCallback((data: any) => {
-    console.log(data);
-  }, []);
+  const { signIn } = useAuth();
+
+  const handleSingIn = useCallback(
+    async (data: SigInFormData): Promise<void> => {
+      try {
+        formRef.current?.setErrors({});
+
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('Email obrigatório')
+            .email('Digite um e-mail válido'),
+          password: Yup.string().required('Senha obrigatória'),
+        });
+
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+
+        await signIn({
+          email: data.email,
+          password: data.password,
+        });
+
+        // history.push('/');
+      } catch (error) {
+        if (error instanceof Yup.ValidationError) {
+          const errors = getValidationsErrors(error);
+
+          formRef.current?.setErrors(errors);
+
+          return;
+        }
+
+        Alert.alert(
+          'Erro na autenticação',
+          'Ocorreu um erro ao fazer login, cheque as credencias.',
+        );
+      }
+    },
+    [signIn],
+  );
 
   return (
     <>
