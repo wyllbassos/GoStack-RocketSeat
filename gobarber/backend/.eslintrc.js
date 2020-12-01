@@ -16,7 +16,17 @@ module.exports = {
         "@typescript-eslint"
     ],
     "rules": {
+      "@typescript-eslint/naming-convention": [
+        "error",
+        {
+          "selector": "interface",
+          "prefix": ["I"],
+          "format": ["PascalCase"]
+        }
+      ],
+      "no-extra-semi": "off",
       "no-underscore-dangle": "off",
+      "no-useless-constructor": "off",
       "class-methods-use-this": "off",
       "camelcase": 0,
       '@typescript-eslint/camelcase': 'off',
