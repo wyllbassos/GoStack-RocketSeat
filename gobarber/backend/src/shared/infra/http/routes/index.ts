@@ -5,8 +5,8 @@ import sessionsRoutes from '@modules/users/infra/http/routes/sessions.routes';
 
 const routes = Router();
 
-routes.use('/appointments', appointmentRoutes);
 routes.use('/users', usersRoutes);
+routes.use('/appointments', appointmentRoutes);
 routes.use('/sessions', sessionsRoutes);
 
 export default routes;
