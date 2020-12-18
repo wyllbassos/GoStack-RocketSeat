@@ -1,14 +1,16 @@
 import { Router } from 'express';
-import appointmentRoutes from '@modules/appointments/infra/http/routes/appointments.routes';
-import usersRoutes from '@modules/users/infra/http/routes/users.routes';
-import sessionsRoutes from '@modules/users/infra/http/routes/sessions.routes';
-import passwordRoutes from '@modules/users/infra/http/routes/password.routes';
+import appointmentRouter from '@modules/appointments/infra/http/routes/appointments.routes';
+import usersRouter from '@modules/users/infra/http/routes/users.routes';
+import sessionsRouter from '@modules/users/infra/http/routes/sessions.routes';
+import passwordRouter from '@modules/users/infra/http/routes/password.routes';
+import profileRouter from '@modules/users/infra/http/routes/profile.routes';
 
 const routes = Router();
 
-routes.use('/users', usersRoutes);
-routes.use('/appointments', appointmentRoutes);
-routes.use('/sessions', sessionsRoutes);
-routes.use('/password', passwordRoutes);
+routes.use('/users', usersRouter);
+routes.use('/appointments', appointmentRouter);
+routes.use('/sessions', sessionsRouter);
+routes.use('/password', passwordRouter);
+routes.use('/profile', profileRouter);
 
 export default routes;
