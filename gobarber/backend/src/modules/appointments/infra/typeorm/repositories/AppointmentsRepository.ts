@@ -4,6 +4,8 @@ import IAppointmentsRepository from '@modules/appointments/repositories/IAppoint
 import ICreateAppointmentDTO from '@modules/appointments/dtos/ICreateAppointmentDTO';
 import IFindAllInMonthFromProviderDTO from '@modules/appointments/dtos/IFindAllInMonthFromProviderDTO';
 import IFindAllInDayFromProviderDTO from '@modules/appointments/dtos/IFindAllInDayFromProviderDTO';
+import IFindByDateAndProviderDTO from '@modules/appointments/dtos/IFindByDateAndProviderDTO';
+import IFindByDateAndUserDTO from '@modules/appointments/dtos/IFindByDateAndUserDTO';
 
 import Appointment from '../entities/Appointment';
 
@@ -17,6 +19,28 @@ class AppointmentsRepository implements IAppointmentsRepository {
   public async findByDate(date: Date): Promise<Appointment | undefined> {
     const findAppointment = await this.ormRepository.findOne({
       where: { date },
+    });
+
+    return findAppointment;
+  }
+
+  public async findByDateAndProvider({
+    date,
+    provider_id,
+  }: IFindByDateAndProviderDTO): Promise<Appointment | undefined> {
+    const findAppointment = await this.ormRepository.findOne({
+      where: { date, provider_id },
+    });
+
+    return findAppointment;
+  }
+
+  public async findByDateAndUser({
+    date,
+    user_id,
+  }: IFindByDateAndUserDTO): Promise<Appointment | undefined> {
+    const findAppointment = await this.ormRepository.findOne({
+      where: { date, user_id },
     });
 
     return findAppointment;
