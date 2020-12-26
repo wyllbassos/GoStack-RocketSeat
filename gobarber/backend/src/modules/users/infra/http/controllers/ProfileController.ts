@@ -2,6 +2,7 @@ import UpdateProfileService from '@modules/users/services/UpdateProfileService';
 import ShowProfileService from '@modules/users/services/ShowProfileService';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
+import { classToClass } from 'class-transformer';
 
 // Regra de CRUD em REST
 // index, show, create, update, delete
@@ -14,10 +15,7 @@ class ProfileController {
 
     const user = await showProfile.execute({ user_id });
 
-    return response.json({
-      ...user,
-      password: undefined,
-    });
+    return response.json(classToClass(user));
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
@@ -34,10 +32,7 @@ class ProfileController {
       password,
     });
 
-    return response.send({
-      ...user,
-      password: undefined,
-    });
+    return response.json(classToClass(user));
   }
 }
 
