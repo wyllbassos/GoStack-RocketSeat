@@ -1,5 +1,5 @@
 interface IMailConfig {
-  driver: 'ethereal' | 'GoogleSMTP';
+  driver: 'ethereal' | 'googleSmtp';
   defaults: {
     from: {
       email: string;
