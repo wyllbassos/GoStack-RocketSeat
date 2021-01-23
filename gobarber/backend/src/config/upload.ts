@@ -15,8 +15,9 @@ interface IUploadConfig {
   };
 
   config: {
-    disk: {
-      storage: StorageEngine;
+    disk: any;
+    aws: {
+      bucket: string;
     };
   };
 }
@@ -41,5 +42,8 @@ export default {
 
   config: {
     disk: {},
+    aws: {
+      bucket: 'app-gobarber-wlm',
+    },
   },
 } as IUploadConfig;
