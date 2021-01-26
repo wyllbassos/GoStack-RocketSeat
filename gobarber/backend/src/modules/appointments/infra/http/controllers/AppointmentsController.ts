@@ -7,8 +7,6 @@ class AppointmentsController {
     const user_id = request.user.id;
     const { provider_id, date } = request.body;
 
-    // const parsedDate = parseISO(date);
-    // console.log(parsedDate);
     const createAppointmentService = container.resolve(
       CreateAppointmentService,
     );

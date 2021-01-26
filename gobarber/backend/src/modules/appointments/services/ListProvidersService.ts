@@ -27,7 +27,6 @@ class ListProvidersServices {
       users = await this.usersRepository.findAllProviders({
         except_user_id: user_id,
       });
-      console.log('Executado query no banco!');
     }
 
     await this.cacheProvider.save(userCacheKey, users);
