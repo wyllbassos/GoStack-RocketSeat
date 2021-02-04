@@ -5,12 +5,14 @@ import IMailProvider from './models/IMailProvider';
 import EtherealMailProvider from './implementations/EtherealMailProvider';
 import GoogleSMTPMailProvider from './implementations/GoogleSMTPMailProvider';
 
-const providers = {
-  ethereal: container.resolve(EtherealMailProvider),
-  googleSmtp: container.resolve(GoogleSMTPMailProvider),
-};
+let provider = {} as IMailProvider;
 
-container.registerInstance<IMailProvider>(
-  'MailProvider',
-  providers[mailConfig.driver],
-);
+if (mailConfig.driver === 'ethereal') {
+  provider = container.resolve(EtherealMailProvider);
+}
+
+if (mailConfig.driver === 'googleSmtp') {
+  provider = container.resolve(GoogleSMTPMailProvider);
+}
+
+container.registerInstance<IMailProvider>('MailProvider', provider);
