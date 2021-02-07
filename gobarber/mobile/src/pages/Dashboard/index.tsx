@@ -1,17 +1,36 @@
 import React from 'react';
 import { useAuth } from '../../hooks/auth';
 
-import { Container, ContainerText } from './styles';
+import { useNavigation } from '@react-navigation/native';
 
-import Button from '../../components/Button';
+import {
+  Container,
+  Header,
+  HeaderTitle,
+  UserName,
+  ProfileButton,
+  UserAvatar,
+} from './styles';
+
 
 const Dashboard: React.FC = () => {
   const { signOut, user } = useAuth();
+  const navigation = useNavigation();
+
+
+
   return (
     <Container>
-      <ContainerText>{`Olá ${user.name}`}</ContainerText>
-      <ContainerText>{`Email: ${user.email}`}</ContainerText>
-      <Button onPress={signOut}>Sair</Button>
+            <Header>
+        <HeaderTitle>
+          Bem vindo, {'\n'}
+          <UserName>{user.name}</UserName>
+        </HeaderTitle>
+
+        <ProfileButton onPress={() => navigation.navigate('Profile')}>
+          <UserAvatar source={{ uri: user.avatar_url }} />
+        </ProfileButton>
+      </Header>
     </Container>
   );
 };
