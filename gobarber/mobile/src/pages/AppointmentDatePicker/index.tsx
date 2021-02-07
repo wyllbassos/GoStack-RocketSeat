@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import Icon from 'react-native-vector-icons/Feather';
+import DateTimePicker from '@react-native-community/datetimepicker';
+
+import { format } from 'date-fns';
 
 import { useRoute, useNavigation } from '@react-navigation/native';
-import { Alert } from 'react-native';
+import { Platform } from 'react-native';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/auth';
 import {
@@ -16,6 +19,11 @@ import {
   ProviderContainer,
   ProviderAvatar,
   ProviderName,
+  Calendar,
+  SelectedDate,
+  Title,
+  OpenDatePickerButton,
+  OpenDatePickerButtonText,
 } from './styles';
 
 export interface Provider {
@@ -39,11 +47,22 @@ const AppointmentDatePicker: React.FC = () => {
   const navigation = useNavigation();
   const params = route.params as RouteParams;
 
+  const minimumDate = useMemo(() => {
+    const today = new Date();
+
+    if (today.getHours() >= 17) {
+      return new Date(today.setDate(today.getDate() + 1));
+    }
+
+    return today;
+  }, []);
+
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const [providers, setProviders] = useState<Provider[]>([]);
-  const [availability, setAvailability] = useState<AvailabilityItem[]>([]);
   const [selectedProvider, setSelectedProvider] = useState<string>(
     params.providerId,
   );
+  const [selectedDate, setSelectedDate] = useState(minimumDate);
 
   useEffect(() => {
     api.get('providers').then(response => {
@@ -54,6 +73,33 @@ const AppointmentDatePicker: React.FC = () => {
   const handleSelectProvider = useCallback((providerId: string) => {
     setSelectedProvider(providerId);
   }, []);
+
+  const handleOpenDatePicker = useCallback(() => {
+    setShowDatePicker(status => !status);
+  }, []);
+
+  const handleToggleDatePicker = useCallback(() => {
+    setShowDatePicker(status => !status);
+  }, []);
+
+  const handleDateChanged = useCallback(
+    (event: any, date: Date | undefined) => {
+      if (Platform.OS === 'android') {
+        setShowDatePicker(false);
+      }
+
+      if (date) {
+        setSelectedDate(date);
+      }
+    },
+    [],
+  );
+
+  const formatedDate = useMemo(() => {
+    const day = selectedDate.getDate();
+    const month = selectedDate.getDate();
+    const year = selectedDate.getDate();
+  }, [selectedDate]);
 
   return (
     <>
@@ -83,6 +129,28 @@ const AppointmentDatePicker: React.FC = () => {
             )}
           />
         </ProvidersListContainer>
+
+        <Calendar>
+          <SelectedDate>
+            <Title>{format(selectedDate, 'dd/MM/yyyy')}</Title>
+            <OpenDatePickerButton onPress={handleOpenDatePicker}>
+              <OpenDatePickerButtonText>
+                Selecionar Outra Data
+              </OpenDatePickerButtonText>
+            </OpenDatePickerButton>
+          </SelectedDate>
+
+          {showDatePicker && (
+            <DateTimePicker
+              {...(Platform.OS === 'ios' && { textColor: '#f4ede8' })} // < nessa linha
+              mode="date"
+              onChange={handleDateChanged}
+              display={Platform.OS === 'android' ? 'calendar' : 'spinner'}
+              value={selectedDate}
+              minimumDate={minimumDate}
+            />
+          )}
+        </Calendar>
       </Container>
     </>
   );
