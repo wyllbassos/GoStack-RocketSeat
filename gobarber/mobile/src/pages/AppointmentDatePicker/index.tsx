@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Container, ContainerText } from './styles';
 
-const CreateAppointment: React.FC = () => {
+const AppointmentCreated: React.FC = () => {
   return (
     <Container>
       <ContainerText>CreateAppointment</ContainerText>
@@ -10,4 +10,4 @@ const CreateAppointment: React.FC = () => {
   );
 };
 
-export default CreateAppointment;
+export default AppointmentCreated;
