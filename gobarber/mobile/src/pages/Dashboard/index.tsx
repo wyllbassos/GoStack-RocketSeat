@@ -33,17 +33,16 @@ const Dashboard: React.FC = () => {
   const [providers, setProviders] = useState<Provider[]>([]);
 
   useEffect(() => {
-    api.get('providers').then((response) => {
+    api.get('providers').then(response => {
       setProviders(response.data);
     });
-  }, []);
+  }, [navigation]);
 
-  const handleGoToProfile = useCallback(
-    () => {
-      navigation.navigate('Profile');
-    },
-    [navigation],
-  );
+  const handleGoToProfile = useCallback(async () => {
+    // navigation.navigate('Profile');
+    await signOut();
+    navigation.navigate('SignIn');
+  }, [navigation, signOut]);
 
   const handleSelectProvider = useCallback(
     (providerId: string) => {
@@ -56,7 +55,8 @@ const Dashboard: React.FC = () => {
     <Container>
       <Header>
         <HeaderTitle>
-          Bem vindo, {'\n'}
+          Bem vindo,
+          {'\n'}
           <UserName>{user.name}</UserName>
         </HeaderTitle>
 
@@ -67,7 +67,7 @@ const Dashboard: React.FC = () => {
 
       <ProvidersList
         data={providers}
-        keyExtractor={(provider) => provider.id}
+        keyExtractor={provider => provider.id}
         ListHeaderComponent={
           <ProvidersListTitle>Cabelereiros</ProvidersListTitle>
         }

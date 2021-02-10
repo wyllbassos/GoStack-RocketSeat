@@ -24,6 +24,12 @@ import {
   Title,
   OpenDatePickerButton,
   OpenDatePickerButtonText,
+  Schedule,
+  Section,
+  SectionTitle,
+  SectionContent,
+  Hour,
+  HourText,
 } from './styles';
 
 export interface Provider {
@@ -58,11 +64,14 @@ const AppointmentDatePicker: React.FC = () => {
   }, []);
 
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [providers, setProviders] = useState<Provider[]>([]);
   const [selectedProvider, setSelectedProvider] = useState<string>(
     params.providerId,
   );
   const [selectedDate, setSelectedDate] = useState(minimumDate);
+  const [selectedHour, setSelectedHour] = useState(0);
+
+  const [providers, setProviders] = useState<Provider[]>([]);
+  const [availability, setAvailability] = useState<AvailabilityItem[]>([]);
 
   useEffect(() => {
     api.get('providers').then(response => {
@@ -70,15 +79,26 @@ const AppointmentDatePicker: React.FC = () => {
     });
   }, []);
 
+  useEffect(() => {
+    api
+      .get(`/providers/${selectedProvider}/day-availability`, {
+        params: {
+          year: selectedDate.getFullYear(),
+          month: selectedDate.getMonth() + 1,
+          day: selectedDate.getDate(),
+        },
+      })
+      .then(response => {
+        setAvailability(response.data);
+        setSelectedHour(0);
+      });
+  }, [selectedProvider, selectedDate]);
+
   const handleSelectProvider = useCallback((providerId: string) => {
     setSelectedProvider(providerId);
   }, []);
 
   const handleOpenDatePicker = useCallback(() => {
-    setShowDatePicker(status => !status);
-  }, []);
-
-  const handleToggleDatePicker = useCallback(() => {
     setShowDatePicker(status => !status);
   }, []);
 
@@ -95,11 +115,25 @@ const AppointmentDatePicker: React.FC = () => {
     [],
   );
 
-  const formatedDate = useMemo(() => {
-    const day = selectedDate.getDate();
-    const month = selectedDate.getDate();
-    const year = selectedDate.getDate();
-  }, [selectedDate]);
+  const morningAvailability = useMemo(() => {
+    return availability
+      .filter(({ hour }) => hour < 12)
+      .map(({ hour, available }) => ({
+        hour,
+        hourFormatted: format(new Date().setHours(hour), 'HH:00'),
+        available,
+      }));
+  }, [availability]);
+
+  const afternoonAvailability = useMemo(() => {
+    return availability
+      .filter(({ hour }) => hour >= 12)
+      .map(({ hour, available }) => ({
+        hour,
+        hourFormatted: format(new Date().setHours(hour), 'HH:00'),
+        available,
+      }));
+  }, [availability]);
 
   return (
     <>
@@ -151,6 +185,50 @@ const AppointmentDatePicker: React.FC = () => {
             />
           )}
         </Calendar>
+
+        <Schedule>
+          <Title>Escolha o horário</Title>
+
+          <Section>
+            <SectionTitle>Manhã</SectionTitle>
+
+            <SectionContent>
+              {morningAvailability.map(({ hourFormatted, hour, available }) => (
+                <Hour
+                  available={available}
+                  selected={hour === selectedHour}
+                  onPress={() => setSelectedHour(hour)}
+                  key={hourFormatted}
+                >
+                  <HourText selected={hour === selectedHour}>
+                    {hourFormatted}
+                  </HourText>
+                </Hour>
+              ))}
+            </SectionContent>
+          </Section>
+
+          <Section>
+            <SectionTitle>Tarde</SectionTitle>
+
+            <SectionContent>
+              {afternoonAvailability.map(
+                ({ hourFormatted, hour, available }) => (
+                  <Hour
+                    available={available}
+                    selected={hour === selectedHour}
+                    onPress={() => setSelectedHour(hour)}
+                    key={hourFormatted}
+                  >
+                    <HourText selected={hour === selectedHour}>
+                      {hourFormatted}
+                    </HourText>
+                  </Hour>
+                ),
+              )}
+            </SectionContent>
+          </Section>
+        </Schedule>
       </Container>
     </>
   );
