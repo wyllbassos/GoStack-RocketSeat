@@ -99,11 +99,11 @@ const AppointmentDatePicker: React.FC = () => {
   const handleCreateAppointment = useCallback(async () => {
     try {
       const year = selectedDate.getFullYear();
-      const month = selectedDate.getMonth() + 1;
+      const month = selectedDate.getMonth();
       const day = selectedDate.getDate();
-      // const date = new Date(year, month, day, selectedHour, 0, 0, 0);
+      const date = new Date(year, month, day, selectedHour, 0, 0, 0);
 
-      const date = `${year}-${month}-${day} ${selectedHour}:00:00`;
+      // const dateToSendApi = `${year}-${month}-${day} ${selectedHour}:00:00`;
 
       await api.post('appointments', {
         provider_id: selectedProvider,
