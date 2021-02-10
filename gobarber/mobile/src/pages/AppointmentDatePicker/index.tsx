@@ -5,7 +5,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { format } from 'date-fns';
 
 import { useRoute, useNavigation } from '@react-navigation/native';
-import { Platform } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/auth';
 import {
@@ -30,6 +30,8 @@ import {
   SectionContent,
   Hour,
   HourText,
+  CreateAppointmentButton,
+  CreateAppointmentButtonText,
 } from './styles';
 
 export interface Provider {
@@ -93,6 +95,29 @@ const AppointmentDatePicker: React.FC = () => {
         setSelectedHour(0);
       });
   }, [selectedProvider, selectedDate]);
+
+  const handleCreateAppointment = useCallback(async () => {
+    try {
+      const year = selectedDate.getFullYear();
+      const month = selectedDate.getMonth() + 1;
+      const day = selectedDate.getDate();
+      // const date = new Date(year, month, day, selectedHour, 0, 0, 0);
+
+      const date = `${year}-${month}-${day} ${selectedHour}:00:00`;
+
+      await api.post('appointments', {
+        provider_id: selectedProvider,
+        date,
+      });
+
+      navigation.navigate('AppointmentCreated', { date });
+    } catch (err) {
+      Alert.alert(
+        'Erro ao criar agendamento',
+        'Ocorreu um erro ao tentar criar o agendamento, tente novamente!',
+      );
+    }
+  }, [selectedProvider, selectedDate, selectedHour, navigation]);
 
   const handleSelectProvider = useCallback((providerId: string) => {
     setSelectedProvider(providerId);
@@ -229,6 +254,10 @@ const AppointmentDatePicker: React.FC = () => {
             </SectionContent>
           </Section>
         </Schedule>
+
+        <CreateAppointmentButton onPress={handleCreateAppointment}>
+          <CreateAppointmentButtonText>Agendar</CreateAppointmentButtonText>
+        </CreateAppointmentButton>
       </Container>
     </>
   );
