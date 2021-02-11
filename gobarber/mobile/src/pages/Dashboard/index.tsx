@@ -28,21 +28,30 @@ export interface Provider {
 }
 
 const Dashboard: React.FC = () => {
-  const { signOut, user } = useAuth();
+  const { user, signOut } = useAuth();
   const navigation = useNavigation();
   const [providers, setProviders] = useState<Provider[]>([]);
 
   useEffect(() => {
-    api.get('providers').then(response => {
-      setProviders(response.data);
-    });
-  }, [navigation]);
+    api
+      .get('providers')
+      .then(response => {
+        setProviders(response.data);
+      })
+      .catch(err => {
+        if (
+          err.response.data.message === 'Invalid JWT token' ||
+          err.response.status === 401
+        ) {
+          signOut();
+          navigation.navigate('Dashboard');
+        }
+      });
+  }, [navigation, signOut]);
 
   const handleGoToProfile = useCallback(async () => {
-    // navigation.navigate('Profile');
-    await signOut();
-    navigation.navigate('SignIn');
-  }, [navigation, signOut]);
+    navigation.navigate('Profile');
+  }, [navigation]);
 
   const handleSelectProvider = useCallback(
     (providerId: string) => {

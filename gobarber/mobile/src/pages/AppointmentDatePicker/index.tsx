@@ -110,7 +110,7 @@ const AppointmentDatePicker: React.FC = () => {
         date,
       });
 
-      navigation.navigate('AppointmentCreated', { date });
+      navigation.navigate('AppointmentCreated', { date: date.getTime() });
     } catch (err) {
       Alert.alert(
         'Erro ao criar agendamento',
